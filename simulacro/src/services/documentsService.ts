@@ -60,11 +60,13 @@ export function update(documentId: string, title?: string, description?: string)
     return undefined;
   }
 
-  if (title) {
+  if (title !== undefined) {
     document.title = title;
   }
+
   if (description !== undefined) {
     document.description = description;
   }
+
   return document;
 }
