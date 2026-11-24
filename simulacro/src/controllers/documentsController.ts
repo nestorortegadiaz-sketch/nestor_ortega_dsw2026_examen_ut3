@@ -17,9 +17,9 @@ export function list(req: Request, res: Response): void {
 export function getById(req: Request, res: Response): void {
   const document = documentsService.getById(String(req.params.documentId));
 
-  // if (!document) {
-  //   throw new AppError(404, 'Document not found', 'NOT_FOUND');
-  // }
+  if (!document) {
+    throw new AppError(404, 'Document not found', 'NOT_FOUND');
+  }
 
   if (!document) {
     throw new ResourceNotFoundError(404, 'RESOURCE_NOT_FOUND', String(req.params.documentId));
