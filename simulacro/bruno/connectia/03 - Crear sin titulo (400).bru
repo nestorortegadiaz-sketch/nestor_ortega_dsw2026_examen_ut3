@@ -1,0 +1,19 @@
+meta {
+  name: 03 - Crear sin titulo (400)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/v1/admin/documents
+  body: json
+  auth: none
+}
+
+body:json {
+  {}
+}
+
+assert {
+  res.status: eq 400
+}

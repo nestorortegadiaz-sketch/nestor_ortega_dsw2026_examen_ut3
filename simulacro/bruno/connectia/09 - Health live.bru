@@ -1,0 +1,15 @@
+meta {
+  name: 09 - Health live
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/health/live
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

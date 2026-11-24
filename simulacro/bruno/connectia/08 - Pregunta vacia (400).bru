@@ -1,0 +1,21 @@
+meta {
+  name: 08 - Pregunta vacia (400)
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/v1/questions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "question": "  "
+  }
+}
+
+assert {
+  res.status: eq 400
+}

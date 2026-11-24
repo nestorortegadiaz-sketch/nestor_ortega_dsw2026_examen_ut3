@@ -1,0 +1,21 @@
+meta {
+  name: 06 - Actualizar documento
+  type: http
+  seq: 6
+}
+
+patch {
+  url: {{baseUrl}}/api/v1/admin/documents/{{documentId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "Documento actualizado desde Bruno"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

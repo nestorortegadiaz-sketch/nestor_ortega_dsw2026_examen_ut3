@@ -1,0 +1,21 @@
+meta {
+  name: 07 - Pregunta valida
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/v1/questions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "question": "hola"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

@@ -1,0 +1,15 @@
+meta {
+  name: 01 - Listar documentos
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/v1/admin/documents
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}
