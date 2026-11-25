@@ -12,6 +12,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 export function createApp(): Application {
   const app = express();
   app.use(requestId);
+  
   if (process.env.LOG !== 'OFF') {
   app.use(logger);
 }
