@@ -6,6 +6,6 @@ export class ResourceNotFoundError extends Error {
     public readonly resourceId?: string,
   ) {
     super(message);
-    this.name = 'AppError';
+    this.name = 'ResourceNotFoundError';
   }
 }

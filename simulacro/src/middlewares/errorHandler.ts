@@ -26,7 +26,7 @@ export function errorHandler(
   }
 
   if (err instanceof ResourceNotFoundError) {
-    res.status(err.statusCode).json({ error: err.code ?? 'ERROR', message: err.message });
+    res.status(err.statusCode).json({ error: err.code ?? 'ERROR', message: "Document with id 'no-existe' not found", resourceId: err.resourceId });
     return;
   }
 

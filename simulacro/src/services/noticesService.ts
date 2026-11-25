@@ -1,5 +1,7 @@
 
 import { randomUUID } from 'node:crypto';
+import { AppError } from '../errors/AppError.js';
+import { ResourceNotFoundError } from '../errors/ResourceNotFoundError.js';
 
 // Interfaz que define la estructura que debe tener cada aviso.
 interface Notice {
@@ -72,31 +74,52 @@ export function list(page: number, limit: number, search?: string) {
 // Busca un aviso por su identificador.
 export function getById(noticeId: string) {
 
-    // find() devuelve el aviso cuyo id coincide con noticeId.
-    // Si no encuentra ninguno, devuelve undefined.
     const notice = notices.find((item) => item.id === noticeId);
+
+    // Si no existe, lanzamos un error 404.
+    if (!notice) {
+        throw new ResourceNotFoundError(
+            404,
+            'Notice not found',
+            'RESOURCE_NOT_FOUND',
+            noticeId
+        );
+    }
 
     return notice;
 }
 
 // POST /api/v1/notices
 // Crea un aviso nuevo.
-export function create(title: string, description: string) {
+export function create(title: string, description?: string) {
 
-    // Creamos un objeto Notice con sus cuatro propiedades.
-    // randomUUID() genera un identificador único.
-    // new Date().toISOString() genera la fecha actual en formato ISO.
+    // Comprobamos que el titulo sea una cadena y no este vacio.
+    if (typeof title !== "string" || title.trim() === "") {
+        throw new AppError(400, 'Title is required', 'MISSING_TITLE');
+    }
+
+    // Si no se envia descripcion, guardamos una cadena vacia.
+    if (description === undefined) {
+        description = "";
+    }
+
+    // Comprobamos que la descripcion sea una cadena.
+    if (typeof description !== "string") {
+        throw new AppError(400, 'Description must be a string', 'INVALID_DESCRIPTION');
+    }
+
+    // Creamos el aviso despues de validar los datos.
     const notice: Notice = {
         id: randomUUID(),
-        title,
-        description,
+        title: title.trim(),
+        description: description,
         createdAt: new Date().toISOString(),
     };
 
-    // Añadimos el nuevo aviso al array.
+    // Guardamos el aviso.
     notices.push(notice);
 
-    // Devolvemos el aviso que acabamos de crear.
+    // Devolvemos el aviso creado.
     return notice;
 }
 
@@ -108,26 +131,57 @@ export function update(
     description?: string,
 ) {
 
-    // Buscamos el aviso que queremos modificar.
+    // Buscamos el aviso por su identificador.
     const notice = notices.find((item) => item.id === noticeId);
 
-    // Si el aviso no existe, devolvemos undefined.
+    // Si no existe, lanzamos un error.
     if (!notice) {
-        return undefined;
+        throw new ResourceNotFoundError(
+            404,
+            'Notice not found',
+            'RESOURCE_NOT_FOUND',
+            noticeId
+        );
     }
 
-    // Si recibimos un título, actualizamos el título anterior.
-    // Si no lo recibimos, conservamos el que ya tenía.
+    // Validamos el titulo si se ha enviado.
     if (title !== undefined) {
-        notice.title = title;
+
+        if (typeof title !== "string" || title.trim() === "") {
+            throw new AppError(400, 'Title is required', 'MISSING_TITLE');
+        }
+
     }
 
-    // Si recibimos una descripción, actualizamos la anterior.
-    // Si no la recibimos, conservamos la que ya tenía.
+    // Validamos la descripcion si se ha enviado.
+    if (description !== undefined) {
+
+        if (typeof description !== "string") {
+            throw new AppError(400, 'Description must be a string', 'INVALID_DESCRIPTION');
+        }
+
+    }
+
+    // Actualizamos el titulo solamente si se ha enviado.
+    if (title !== undefined) {
+        notice.title = title.trim();
+    }
+
+    // Actualizamos la descripcion solamente si se ha enviado.
     if (description !== undefined) {
         notice.description = description;
     }
 
-    // Devolvemos el aviso con los cambios realizados.
+    // Devolvemos el aviso actualizado.
     return notice;
+}
+   // GET /api/v1/admin/documents?page=1&limit=20
+export function listado(page: number, limit: number, search?: string) {
+
+    const start = (page - 1) * limit;
+
+    return {
+        data: notices.slice(start, start + limit),
+        total: notices.length,
+    };
 }
