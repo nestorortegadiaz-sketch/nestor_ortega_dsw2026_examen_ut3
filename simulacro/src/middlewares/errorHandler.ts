@@ -10,6 +10,7 @@ export function errorHandler(
 
   _next: NextFunction,
 ): void {
+  void _next; // Evitar advertencia de variable no utilizada
   const isProduction = env.NODE_ENV === 'production';
 
   console.error(

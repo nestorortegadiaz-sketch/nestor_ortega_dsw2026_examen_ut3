@@ -175,9 +175,9 @@ export function update(
     // Devolvemos el aviso actualizado.
     return notice;
 }
-   // GET /api/v1/admin/documents?page=1&limit=20
+// GET /api/v1/admin/documents?page=1&limit=20
 export function listado(page: number, limit: number, search?: string) {
-
+    void search;
     const start = (page - 1) * limit;
 
     return {
