@@ -49,6 +49,21 @@ const notices: Notice[] = [
 // GET /api/v1/notices
 // Devuelve los avisos aplicando paginación y un filtro de búsqueda opcional.
 export function list(page: number, limit: number, search?: string) {
+    // page y limit deben ser números enteros mayores que cero. 
+    // En caso contrario, responde 400 mediante un AppError.
+
+    if (
+        !Number.isInteger(page) ||
+        page <= 0 ||
+        !Number.isInteger(limit) ||
+        limit <= 0
+    ) {
+        throw new AppError(
+            400,
+            'Page and limit must be positive integers',
+            'INVALID_PAGINATION'
+        );
+    }
 
     // Si recibimos una palabra de búsqueda, filtramos los avisos
     // cuyo título contenga esa palabra.
