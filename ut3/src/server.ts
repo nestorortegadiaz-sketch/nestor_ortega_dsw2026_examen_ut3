@@ -1,6 +1,6 @@
-// Entry point: load env → create app → open TCP port.
-// config/env.js is imported first: evaluating it runs process.loadEnvFile(),
-// so a missing .env kills the process before the Express app is constructed.
+// Punto de entrada: cargar env → crear la aplicación → abrir el puerto TCP.
+// Primero se importa config/env.js: al evaluarlo se ejecuta process.loadEnvFile(),
+// por lo que si falta .env el proceso se detiene antes de construir la aplicación Express.
 
 import { env } from './config/env.js';
 import { createApp } from './app.js';

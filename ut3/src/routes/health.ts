@@ -1,5 +1,5 @@
-// GET /health/live — created in Topic 03 and kept as-is in every later topic.
-// Response body is EXACTLY { "status": "live" }; no other fields.
+// GET /health/live — creado en el tema 03 y mantenido igual en los temas posteriores.
+// El cuerpo de la respuesta es EXACTAMENTE { "status": "live" }; no incluye otros campos.
 
 import { Router } from 'express';
 

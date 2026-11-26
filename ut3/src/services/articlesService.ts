@@ -1,5 +1,5 @@
-// Services layer: business logic and data. Plain TypeScript — it never
-// imports Express nor touches req/res/next, so it can be tested without HTTP.
+// Capa de servicios: lógica de negocio y datos. Es TypeScript puro: nunca
+// importa Express ni utiliza req/res/next, por lo que puede probarse sin HTTP.
 
 import { randomUUID } from 'node:crypto';
 
@@ -15,10 +15,11 @@ export interface ArticleChanges {
   description?: string;
 }
 
-// The in-memory array now lives here, not in the routes.
-const articles: Article[] = [];
+// Ahora el array en memoria reside aquí, no en las rutas.
+export const articles: Article[] = [];
 
-export function list(page: number, limit: number) {
+// Devuelve una página de artículos y los datos de paginación.
+export function list(page: number, limit: number, sinDescripcion: number) {
   const start = (page - 1) * limit;
   return {
     data: articles.slice(start, start + limit),
@@ -26,21 +27,24 @@ export function list(page: number, limit: number) {
   };
 }
 
+// Busca un artículo por su ID; devuelve undefined si no lo encuentra.
 export function getById(id: string): Article | undefined {
   return articles.find((article) => article.id === id);
 }
 
-export function create(title: string, description: string): Article {
+// Crea un artículo con un ID y una fecha de creación nuevos.
+export function create(title: string, description?: string): Article {
   const article: Article = {
     id: randomUUID(),
     title,
-    description,
+    description :"",
     createdAt: new Date().toISOString(),
   };
   articles.push(article);
   return article;
 }
 
+// Actualiza solo los campos recibidos; devuelve undefined si no existe.
 export function update(id: string, changes: ArticleChanges): Article | undefined {
   const article = getById(id);
   if (!article) {

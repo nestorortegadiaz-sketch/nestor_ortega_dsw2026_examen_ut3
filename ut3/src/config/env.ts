@@ -1,8 +1,9 @@
-// Loads the .env file natively (no dotenv) and exports the config the
-// server needs. Node's process.loadEnvFile() throws if .env is missing,
-// so a broken setup kills the process immediately (fail-fast without any
-// library). Real environment variables take precedence over .env values.
-// Topic 07 hardens this file by validating it with a zod schema.
+// Carga el archivo .env de forma nativa (sin dotenv) y exporta la
+// configuración que necesita el servidor. Node process.loadEnvFile() lanza
+// una excepción si falta .env, por lo que una configuración incorrecta
+// detiene el proceso inmediatamente (sin dependencias adicionales).
+// Las variables reales de entorno tienen prioridad sobre los valores de .env.
+// El tema 07 protege este archivo validándolo con un esquema de Zod.
 
 process.loadEnvFile();
 

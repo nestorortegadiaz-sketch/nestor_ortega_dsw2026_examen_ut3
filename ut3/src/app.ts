@@ -1,6 +1,6 @@
-// createApp() returns a configured Express application.
-// Importing this file MUST NOT open a TCP port — .listen() lives in server.ts.
-// Middleware runs in the order it is registered (see Activity 1):
+// createApp() devuelve una aplicación Express configurada.
+// Al importar este archivo NO se debe abrir un puerto TCP: .listen() está en server.ts.
+// Los middlewares se ejecutan en el orden en que se registran (consulta la actividad 1):
 // requestId → logger → express.json → routers → notFound → errorHandler.
 
 import express from 'express';
@@ -15,8 +15,10 @@ import { healthRouter } from './routes/health.js';
 
 export function createApp(): Application {
   const app = express();
-
-  app.use(requestId); // first: everything after it can read req.requestId
+if (process.env.DEPURACION == undefined) {
+  process.env.DEPURACION == 0;
+}
+  app.use(requestId); // primero: lo siguiente puede leer req.requestId
   app.use(logger);
   app.use(express.json());
 
@@ -28,8 +30,8 @@ export function createApp(): Application {
   app.use('/health', healthRouter);
   app.use('/api/v1/articles', articlesRouter);
 
-  app.use(notFound); // only reached when no router answered
-  app.use(errorHandler); // always last
+  app.use(notFound); // solo se alcanza cuando ningún router responde
+  app.use(errorHandler); // siempre va al final
 
   return app;
 }

@@ -1,4 +1,4 @@
-// ESLint flat config (ESLint 9). See https://eslint.org/docs/latest/use/configure/configuration-files
+// Configuración plana de ESLint (ESLint 9). Consulta https://eslint.org/docs/latest/use/configure/configuration-files
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import globals from 'globals';
